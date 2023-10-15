@@ -83,9 +83,35 @@ app.post("/record", (req,res) => {
     }
 });
 
-app.get("/patient-record/:patient_id", (req,resp)=>{
-    
-})
+app.get("/patient-record/:patient_id", (req,res)=>{
+    try {
+        const patient_id = req.params.patient_id;
+        db.all(
+            "select * from records join patients where patient_id = ?",
+            patient_id,
+            function (err, rows) {
+                if ( err ) {
+                    return res.status(400).json({
+                        success: false,
+                        message: err.message
+                    });
+                }
+
+                return res.status(201).json({
+                    success: true,
+                    patient_id,
+                    data: rows
+                });
+            }
+        );
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: error.message,
+            data: this
+        });
+    }
+});
 
 app.listen(PORT, ()=>{
     console.log("The server is a sprinter...............");
