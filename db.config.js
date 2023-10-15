@@ -11,7 +11,7 @@ db.serialize(() => {
       console.error(err.message);
     } else if (!row) {
       db.run(
-        "CREATE TABLE patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, national_id TEXT UNIQUE)",
+        "CREATE TABLE patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, national_id TEXT UNIQUE, frequent_sickness TEXT)",
         (err) => {
           if (err) {
             console.error(err.message);
