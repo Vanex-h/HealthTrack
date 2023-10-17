@@ -16,10 +16,7 @@ const __dirname = path.dirname(fileURLToPath(currentFileUrl));
 app.use(express.json()).use(morgan("tiny")).use(cors()).use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-    return res.status(200).json({
-        success: true,
-        message: "Welcome to my server"
-    });
+    res.status(307).redirect("/health.html")
 });
 
 // creating a patient
