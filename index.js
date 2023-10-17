@@ -4,11 +4,16 @@ import morgan from "morgan";
 import cors from "cors"
 import { getDeduction } from "./utils.js";
 import { patientSchema, recordSchema } from "./validation.js";
+import path from "path"
+import { fileURLToPath } from "url";
 
 const app = express();
 const PORT= 1400;
 
-app.use(express.json()).use(morgan("tiny")).use(cors());
+const currentFileUrl = import.meta.url;
+const __dirname = path.dirname(fileURLToPath(currentFileUrl));
+
+app.use(express.json()).use(morgan("tiny")).use(cors()).use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
     return res.status(200).json({
