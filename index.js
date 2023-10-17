@@ -3,6 +3,7 @@ import db from "./db.config.js";
 import morgan from "morgan";
 import cors from "cors"
 import { getDeduction } from "./utils.js";
+import { patientSchema, recordSchema } from "./validation.js";
 
 const app = express();
 const PORT= 1400;
@@ -19,6 +20,13 @@ app.get("/", (req, res) => {
 // creating a patient
 app.post("/patient", (req, res) => {
     try {
+        const { error } = patientSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: `${error.message}`
+            });
+        }
         const { patient_national_id, patient_name, frequent_sickness } = req.body;
         db.run(
             "INSERT INTO patients (name, national_id, frequent_sickness) values (? , ?, ?)",
@@ -48,6 +56,13 @@ app.post("/patient", (req, res) => {
 
 app.post("/record", (req,res) => {
     try {
+        const { error } = recordSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: `${error.message}`
+            });
+        }
         const { heart_rate, body_temprature, patient_id } = req.body;
         const deduction = getDeduction(body_temprature, heart_rate);
         if ( !heart_rate || !body_temprature || !patient_id) {
@@ -114,5 +129,5 @@ app.get("/patient-record/:patient_id", (req,res)=>{
 });
 
 app.listen(PORT, ()=>{
-    console.log("The server is a sprinter...............");
+    console.log("The server is running...............");
 })
