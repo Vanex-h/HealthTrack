@@ -1,26 +1,20 @@
-import express from "express"
+import express, { urlencoded } from "express"
 import db from "./db.config.js";
-import morgan from "morgan";
 import cors from "cors"
 import { getDeduction } from "./utils.js";
 import { patientSchema, recordSchema } from "./validation.js";
-import path from "path"
-import { fileURLToPath } from "url";
 
 const app = express();
 const PORT = 1400;
 
-const currentFileUrl = import.meta.url;
-const __dirname = path.dirname(fileURLToPath(currentFileUrl));
-
-app.use(express.json()).use(morgan("tiny")).use(cors()).use(express.static(path.join(__dirname, "public")));
-
-app.get("/", (req, res) => {
-    res.status(307).redirect("/health.html")
-});
+app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({extended: false}))
 
 // creating a patient
 app.post("/patient", (req, res) => {
+    console.log(req.body)
+
     try {
         const { error } = patientSchema.validate(req.body);
         if (error) {
