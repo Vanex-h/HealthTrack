@@ -29,7 +29,7 @@ db.serialize(() => {
       console.error(err.message);
     } else if (!row) {
       db.run(
-        "CREATE TABLE records (patient_id INTEGER, body_temperature REAL, heart_rate INTEGER, deduction TEXT DEFAULT 'fine', FOREIGN KEY(patient_id) REFERENCES patients(id) ON DELETE CASCADE)",
+        "CREATE TABLE records (patient_id INTEGER, body_temperature REAL, heart_rate INTEGER, deduction TEXT DEFAULT 'fine', date DATE, FOREIGN KEY(patient_id) REFERENCES patients(id) ON DELETE CASCADE)",
         (err) => {
           if (err) {
             console.error(err.message);
@@ -41,6 +41,5 @@ db.serialize(() => {
     }
   });
 });
-
 // Export the database connection
 export default db;
