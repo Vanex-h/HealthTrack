@@ -10,7 +10,7 @@ const PORT = 1400;
 
 app.use(cors())
 app.use(express.json());
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 app.use(morgan("tiny"));
 
 // creating a patient
@@ -159,7 +159,7 @@ app.delete("/delete_patient/:patient_id", (req, res) => {
     try {
         const id = req.params.patient_id;
         db.run("delete from patients where id = ?", id,
-           (err) =>{
+            (err) => {
                 if (err) {
                     return res.status(400).json({
                         success: false,

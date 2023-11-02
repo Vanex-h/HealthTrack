@@ -37,5 +37,4 @@ db.serialize(() => {
     }
   });
 });
-// Export the database connection
 export default db;
