@@ -13,7 +13,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(morgan("tiny"));
 
-// creating a patient
 app.post("/patient", (req, res) => {
     console.log(req.body)
 

@@ -3,7 +3,6 @@ import requests
 
 ser = serial.Serial("COM6", 9600, timeout=1)
 
-# API endpoint URL
 api_url = "http://localhost:1400/record"
 
 try:
