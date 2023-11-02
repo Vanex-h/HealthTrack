@@ -3,6 +3,7 @@ import db from "./db.config.js";
 import cors from "cors"
 import { getDeduction } from "./utils.js";
 import { patientSchema, recordSchema } from "./validation.js";
+import morgan from "morgan";
 
 const app = express();
 const PORT = 1400;
@@ -10,6 +11,7 @@ const PORT = 1400;
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
+app.use(morgan("tiny"));
 
 // creating a patient
 app.post("/patient", (req, res) => {
@@ -42,6 +44,7 @@ app.post("/patient", (req, res) => {
             }
         )
     } catch (error) {
+        console.log(error);
         return res.status(400).json({
             success: false,
             message: error.message,
@@ -56,6 +59,7 @@ app.post("/record", (req, res) => {
         const { error } = recordSchema.validate({ ...req.body, date: createdAt });
 
         if (error) {
+            console.log(error);
             return res.status(400).json({
                 success: false,
                 message: `${error.message}`
